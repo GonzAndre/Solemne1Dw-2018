@@ -26,6 +26,7 @@
                       <th scope="col">First</th>
                       <th scope="col">Last</th>
                       <th scope="col">Position</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -35,6 +36,19 @@
                       <td><a href="{% url 'player_detail' player.pk %}">{{player.name}}</a></td>
                       <td>@{{player.nickname}}</td>
                       <td>{{player.position}}</td>
+                      <td>
+                        <div class="dropdown">
+                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Action
+                          </button>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <a href="">
+                              <button class="dropdown-item" type="button">Editar</button>
+                            </a>
+                            <button class="dropdown-item delete" type="button">Eliminar</button>
+                          </div>
+                        </div>
+                      </td>
                     </tr>
                     {% endfor %} 
 

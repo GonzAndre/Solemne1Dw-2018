@@ -1,6 +1,6 @@
 from django.shortcuts import render
-from basket.models import Player
-from basket.forms import PlayerForm
+from basket.models import *
+from basket.forms import *
 from django.shortcuts import redirect
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
@@ -28,7 +28,7 @@ def index(request):
     return render(request, template_name, data)
 
 
-def add(request):
+def add_player(request):
     data = {}
     if request.method == "POST":
         data['form'] = PlayerForm(request.POST, request.FILES)
@@ -45,6 +45,39 @@ def add(request):
     template_name = 'player/add_player.html'
     return render(request, template_name, data)
 
+def add_coach(request):
+    data = {}
+    if request.method == "POST":
+        data['form'] = CoachForm(request.POST, request.FILES)
+
+        if data['form'].is_valid():
+            # aca el formulario valido
+            data['form'].save()
+
+            return redirect('player_list')
+
+    else:
+        data['form'] = CoachForm()
+
+    template_name = 'player/add_Coach.html'
+    return render(request, template_name, data)
+
+def add_team(request):
+    data = {}
+    if request.method == "POST":
+        data['form'] = TeamForm(request.POST, request.FILES)
+
+        if data['form'].is_valid():
+            # aca el formulario valido
+            data['form'].save()
+
+            return redirect('player_list')
+
+    else:
+        data['form'] = TeamForm()
+
+    template_name = 'player/add_Team.html'
+    return render(request, template_name, data)
 
 def detail(request, player_id):
 
@@ -56,5 +89,18 @@ def detail(request, player_id):
     # import pdb;pdb.set_trace()
 
     return render(request, template_name, data)
+
+def edit_player(request, player_id):
+    data = {}
+    if request.POST:
+        formPlayer = EditForm(request.POST, request.FILES, instance=Player.objects.get(pk=player_id))
+        if formPlayer.is_valid():
+            formPlayer.save()
+    template_name = 'player/edit_player.html'
+    data['player'] = EditForm(instance=Player.objects.get(pk=player_id))
+
+    return render(request, template_name, data)
+
+
 
 
