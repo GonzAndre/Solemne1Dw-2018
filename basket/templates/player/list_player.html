@@ -11,11 +11,30 @@
     <title>Listar jugadores!</title>
   </head>
   <body>
+   
     <div class="container">
         
             <p>Hola {{request.user.first_name}} /<a href="{% url 'auth_logout' %}">Salir</a></p>
+        
         <div class="row">
-            <h1>Jugadores!</h1>
+               <div class="col-sm-10">
+              <h1>Jugadores</h1>
+            </div>
+                <div class="col-sm-2">
+                  <a href="{% url 'player_add' %}">
+                        <button class="btn btn-primary" type="button">Agregar</button>
+                    </a>
+                </div>
+    
+    
+          </div>
+        <div class="row">
+           
+           
+                       
+         
+ 
+           
             <div class="col-md-12">
                 
 
