@@ -48,3 +48,11 @@ class Coach(models.Model):
     
     def full_rut(self):
         return '{}-{}' . format(self.rut, self.dv)
+    
+class Match(models.Model):
+    name = models.CharField(max_length=120)
+    date = models.DateTimeField(auto_now=False, auto_now_add=False)
+    roster = models.CharField(max_length=120)
+    
+    def __str__(self):
+        return self.name

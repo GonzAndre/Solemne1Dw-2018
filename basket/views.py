@@ -29,6 +29,8 @@ def index(request):
     template_name = 'player/list_player.html'
     return render(request, template_name, data)
 
+#hacer los index para team y coach
+#arreglar la fecha y hora
 
 def add_player(request):
     data = {}
