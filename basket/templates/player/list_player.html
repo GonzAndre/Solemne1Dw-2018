@@ -42,10 +42,12 @@
                             Action
                           </button>
                           <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <a href="">
+                            <a href="{% url 'Player_edit' player.pk %}">
                               <button class="dropdown-item" type="button">Editar</button>
                             </a>
-                            <button class="dropdown-item delete" type="button">Eliminar</button>
+                            <a href="{% url 'Delete' player.pk %}">
+                              <button class="dropdown-item delete" type="button">Eliminar</button>
+                            </a>
                           </div>
                         </div>
                       </td>
