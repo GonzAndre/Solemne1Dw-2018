@@ -12,7 +12,7 @@ class CoachForm(ModelForm):
     
     class Meta:
         model = Coach
-        fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv']
+        fields = ['name', 'age', 'email', 'nickname', 'rut', 'dv', 'team']
         
 class TeamForm(ModelForm):
     
@@ -43,4 +43,4 @@ class EditCoach(ModelForm):
 
     class Meta:
         model = Coach
-        fields = ['name','age', 'email','nickname','rut','dv']
+        fields = ['name','age', 'email','nickname','rut','dv', 'team']

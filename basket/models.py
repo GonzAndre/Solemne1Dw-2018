@@ -39,6 +39,7 @@ class Coach(models.Model):
     age = models.PositiveIntegerField()
     email = models.EmailField()
     nickname = models.CharField(max_length=120)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE)
 
     rut = models.CharField(max_length=8)
     dv = models.PositiveIntegerField()
