@@ -20,6 +20,24 @@ class TeamForm(ModelForm):
         model = Team
         fields = ['name', 'logo', 'description']
         
+class MatchForm(ModelForm):
+    
+    class Meta:
+        model = Match
+        fields = ['local', 'visit', 'date']
+        
+class RostermatchFrom(ModelForm):
+    
+    class Meta:
+        model = RosterMatch
+        fields = ['team', 'roster', 'player']
+        
+class RosterFrom(ModelForm):
+    
+    class Meta:
+        model = Roster
+        fields = ['team', 'name']
+        
 class EditPlayer(ModelForm):
     
     def init(self, args, kwargs):
@@ -44,3 +62,16 @@ class EditCoach(ModelForm):
     class Meta:
         model = Coach
         fields = ['name','age', 'email','nickname','rut','dv', 'team']
+
+class EditRoster(ModelForm):
+    
+    class Meta:
+        model = Roster
+        fields = ['team', 'name']
+        
+class EditRostermatch(ModelForm):
+    
+    class Meta:
+        model = RosterMatch
+        fields = ['team', 'roster', 'player']
+        

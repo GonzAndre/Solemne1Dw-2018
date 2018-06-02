@@ -22,7 +22,10 @@ class Player(models.Model):
     weight = models.PositiveIntegerField(help_text="Peso en gramos")
     picture = models.ImageField(upload_to='picture_players')
     position = models.CharField(max_length=60, choices=POSITION_PLAYER_CHOICES)
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+#    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    team = models.OneToOneField('Team', on_delete = models.CASCADE)
+    class Meta:
+        unique_together = (('team'),)
 
     rut = models.CharField(max_length=8)
     dv = models.PositiveIntegerField()
@@ -51,9 +54,37 @@ class Coach(models.Model):
         return '{}-{}' . format(self.rut, self.dv)
     
 class Match(models.Model):
-    name = models.CharField(max_length=120)
+    local = models.ForeignKey('Team', on_delete = models.CASCADE,related_name='match_local')
+    visit = models.ForeignKey('Team', on_delete = models.CASCADE,related_name='match_visit')
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    roster = models.CharField(max_length=120)
+
+    def str(self):
+        return '%s v/s %s' % (self.local.name, self.visit.name)
+
+#class InterRoster(models.Model):
+#    match = models.OneToOneField('Match', on_delete=models.CASCADE)
+#    local = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='InterRoster_local')
+#    visit = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='InterRoster_visit')
+#
+#    class Meta:
+#        unique_together = (('match', 'local', 'visit'),)
+#
+#    def str(self):
+#        return '%s v/s %s - %s' % (self.local.name, self.visit.name, self.match.date)
     
-    def __str__(self):
-        return self.name
+class RosterMatch(models.Model):
+    team = models.ForeignKey('Team', on_delete=models.CASCADE)
+    roster = models.ForeignKey('Roster', on_delete=models.CASCADE)
+    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    class Meta:
+        unique_together = (('team', 'player'),)
+
+
+    def str(self):
+        return '%s - %s - %s' % (self.team.name, self.roster.name, self.player.name)
+    
+class Roster(models.Model):
+    team = models.ForeignKey('Team', on_delete = models.CASCADE)
+    name = models.CharField(max_length=120)
+    def str(self):
+        return '%s - %s' % (self.name, self.team.name)

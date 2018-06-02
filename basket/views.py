@@ -70,6 +70,66 @@ def listteam(request):
     template_name = 'player/list_team.html'
     return render(request, template_name, data)
 
+def listmatch(request):
+    data = {}
+
+    # SELECT * FROM player
+    object_list = Match.objects.all().order_by('-id')
+
+    paginator = Paginator(object_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        data['object_list'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        data['object_list'] = paginator.page(1)
+    except EmptyPage:
+        data['object_list'] = paginator.page(paginator.num_pages)
+
+    template_name = 'player/list_match.html'
+    return render(request, template_name, data)
+
+def listrostermatch(request):
+    data = {}
+
+    # SELECT * FROM player
+    object_list = RosterMatch.objects.all().order_by('-id')
+
+    paginator = Paginator(object_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        data['object_list'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        data['object_list'] = paginator.page(1)
+    except EmptyPage:
+        data['object_list'] = paginator.page(paginator.num_pages)
+
+    template_name = 'player/list_roster.html'
+    return render(request, template_name, data)
+
+def listroster(request):
+    data = {}
+
+    # SELECT * FROM player
+    object_list = Roster.objects.all().order_by('-id')
+
+    paginator = Paginator(object_list, 10)
+    page = request.GET.get('page')
+
+    try:
+        data['object_list'] = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        data['object_list'] = paginator.page(1)
+    except EmptyPage:
+        data['object_list'] = paginator.page(paginator.num_pages)
+
+    template_name = 'player/list_roster.html'
+    return render(request, template_name, data)
+
 
 
 def add_player(request):
@@ -121,6 +181,57 @@ def add_team(request):
         data['form'] = TeamForm()
 
     template_name = 'player/add_Team.html'
+    return render(request, template_name, data)
+
+def add_match(request):
+    data = {}
+    if request.method == "POST":
+        data['form'] = MatchForm(request.POST, request.FILES)
+
+        if data['form'].is_valid():
+            # aca el formulario valido
+            data['form'].save()
+
+            return redirect('match_list')
+
+    else:
+        data['form'] = MatchForm()
+
+    template_name = 'player/add_Match.html'
+    return render(request, template_name, data)
+
+
+def add_rostermatch(request):
+    data = {}
+    if request.method == "POST":
+        data['form'] = RostermatchFrom(request.POST, request.FILES)
+
+        if data['form'].is_valid():
+            # aca el formulario valido
+            data['form'].save()
+
+            return redirect('rostermatch_list')
+
+    else:
+        data['form'] = RostermatchFrom()
+
+    template_name = 'player/add_Rostermatch.html'
+    return render(request, template_name, data)
+def add_roster(request):
+    data = {}
+    if request.method == "POST":
+        data['form'] = RosterFrom(request.POST, request.FILES)
+
+        if data['form'].is_valid():
+            # aca el formulario valido
+            data['form'].save()
+
+            return redirect('roster_list')
+
+    else:
+        data['form'] = RosterFrom()
+
+    template_name = 'player/add_Roster.html'
     return render(request, template_name, data)
 
 def detail(request, player_id):
@@ -191,6 +302,42 @@ def edit_coach(request, coach_id):
 
     return render(request, template_name, data)
 
+def edit_match(request, match_id):
+    data = {}
+    if request.POST:
+        formPlayer = EditMatch(request.POST, request.FILES, instance=Match.objects.get(pk=match_id))
+        if formPlayer.is_valid():
+            formPlayer.save()
+            return redirect('match_list')
+    template_name = 'player/edit_match.html'
+    data['match'] = EditMatch(instance=Match.objects.get(pk=Match_id))
+
+    return render(request, template_name, data)
+def edit_roster(request, roster_id):
+    data = {}
+    if request.POST:
+        formPlayer = EditRoster(request.POST, request.FILES, instance=Roster.objects.get(pk=roster_id))
+        if formPlayer.is_valid():
+            formPlayer.save()
+            return redirect('roster_list')
+    template_name = 'player/edit_roster.html'
+    data['roster'] = EditRoster(instance=Roster.objects.get(pk=roster_id))
+
+    return render(request, template_name, data)
+
+def edit_rostermatch(request, rostermatch_id):
+    data = {}
+    if request.POST:
+        formPlayer = EditRostermatch(request.POST, request.FILES, instance=RosterMatch.objects.get(pk=rostermatch_id))
+        if formPlayer.is_valid():
+            formPlayer.save()
+            return redirect('rostermatch_list')
+    template_name = 'player/edit_rostermatch.html'
+    data['rostermatch'] = EditRostermatch(instance=RosterMatch.objects.get(pk=rostermatch_id))
+
+    return render(request, template_name, data)
+
+
 def Delete(request, id):
     data = {}
     template_name = 'list_player.html'
@@ -209,6 +356,25 @@ def Delete_team(request, team_id):
     data['team'] = Team.objects.all()
     Team.objects.filter(pk=team_id).delete()
     return HttpResponseRedirect(reverse('team_list'))
-
-
-
+#def add_roster(requerest, id):
+#    data = {}
+#    template_name = 'list_roster.html'
+#    data['player'] =  
+def Delete_match(request, match_id):
+    data = {}
+    template_name = 'list_match.html'
+    data['match'] = Match.objects.all()
+    Match.objects.filter(pk=match_id).delete()
+    return HttpResponseRedirect(reverse('match_list'))
+def Delete_roster(request, roster_id):
+    data = {}
+    template_name = 'list_roster.html'
+    data['roster'] = Roster.objects.all()
+    Roster.objects.filter(pk=roster_id).delete()
+    return HttpResponseRedirect(reverse('roster_list'))
+def Delete_rostermatch(request, roster_id):
+    data = {}
+    template_name = 'list_rostermatch.html'
+    data['rostermatch'] = Rostermatch.objects.all()
+    Rostermatch.objects.filter(pk=rostermatch_id).delete()
+    return HttpResponseRedirect(reverse('rostermatch_list'))
