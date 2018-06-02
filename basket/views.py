@@ -253,7 +253,7 @@ def add_match(request):
             # aca el formulario valido
             data['form'].save()
 
-            return redirect('match_list')
+            return redirect('list_match')
 
     else:
         data['form'] = MatchForm()
