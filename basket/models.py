@@ -73,15 +73,15 @@ class Match(models.Model):
 #        return '%s v/s %s - %s' % (self.local.name, self.visit.name, self.match.date)
     
 class RosterMatch(models.Model):
-    team = models.ForeignKey('Team', on_delete=models.CASCADE)
-    roster = models.ForeignKey('Roster', on_delete=models.CASCADE)
-    player = models.ForeignKey('Player', on_delete=models.CASCADE)
+    local = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='local')
+    visita = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='visita')
+    match = models.ForeignKey('Match', on_delete=models.CASCADE)
     class Meta:
-        unique_together = (('team', 'player'),)
+        unique_together = (('local', 'match', 'visita'),)
 
 
     def str(self):
-        return '%s - %s - %s' % (self.team.name, self.roster.name, self.player.name)
+        return '%s - %s - %s' % (self.local.name, self.visita.name, self.match.name)
     
 class Roster(models.Model):
     team = models.ForeignKey('Team', on_delete = models.CASCADE)

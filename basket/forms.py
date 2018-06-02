@@ -30,7 +30,7 @@ class RostermatchFrom(ModelForm):
     
     class Meta:
         model = RosterMatch
-        fields = ['team', 'roster', 'player']
+        fields = ['visita', 'local', 'match']
         
 class RosterFrom(ModelForm):
     
@@ -73,5 +73,5 @@ class EditRostermatch(ModelForm):
     
     class Meta:
         model = RosterMatch
-        fields = ['team', 'roster', 'player']
+        fields = ['visita', 'local', 'match']
         

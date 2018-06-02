@@ -22,4 +22,4 @@ class PlayerAdmin(admin.ModelAdmin):
     
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ('local', 'date','visit',)
+    list_display = ('local','visit', 'date',)

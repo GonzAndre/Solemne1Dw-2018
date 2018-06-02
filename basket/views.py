@@ -107,7 +107,7 @@ def listrostermatch(request):
     except EmptyPage:
         data['object_list'] = paginator.page(paginator.num_pages)
 
-    template_name = 'player/list_roster.html'
+    template_name = 'player/list_rostermatch.html'
     return render(request, template_name, data)
 
 def listroster(request):

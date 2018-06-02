@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 
-    <title>Listar jugadores!</title>
+    <title>Listar rostermatch!</title>
   </head>
   <body>
    
@@ -18,8 +18,15 @@
         
         <div class="row">
                <div class="col-sm-10">
-              <h1>Jugadores</h1>
+              <h1>rostermatch</h1>
             </div>
+                <div class="col-sm-2">
+                  <a href="{% url 'rostermatch_add' %}">
+                        <button class="btn btn-primary" type="button">Agregar</button>
+                    </a>
+                </div>
+    
+    
           </div>
         <div class="row">
            
@@ -37,6 +44,7 @@
                       <th scope="col">#</th>
                       <th scope="col">Team</th>
                       <th scope="col">Roster</th>
+                      <th scope="col">Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -44,7 +52,7 @@
                     <tr>
                       <th scope="row">{{rostermatch.id}}</th>
                       <td>{{rostermatch.team}}</td>
-                      <td>{{rostermatch.roster}}</td>
+                      <td>{{rostermatch.roster.name}}</td>
                       <td>
                         <div class="dropdown">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
