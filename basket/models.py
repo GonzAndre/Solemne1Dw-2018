@@ -1,5 +1,6 @@
 from django.db import models
 from basket.defines import POSITION_PLAYER_CHOICES
+from django.contrib.auth.models import User
 
 
 class Team(models.Model):
@@ -32,16 +33,20 @@ class Player(models.Model):
 
     def __str__(self):
         return self.name
-
-
+    
 class Coach(models.Model):
+    user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length=120)
     age = models.PositiveIntegerField()
     email = models.EmailField()
     nickname = models.CharField(max_length=120)
+    team = models.OneToOneField('Team', on_delete = models.CASCADE)
 
     rut = models.CharField(max_length=8)
     dv = models.PositiveIntegerField()
+    
+    class Meta:
+        unique_together = (('user', 'team'),)
 
     def __str__(self):
         return self.name
@@ -49,10 +54,40 @@ class Coach(models.Model):
     def full_rut(self):
         return '{}-{}' . format(self.rut, self.dv)
     
-class Match(models.Model):
+class Roster(models.Model):
+    team = models.ForeignKey('Team', on_delete = models.CASCADE)
     name = models.CharField(max_length=120)
+    def __str__(self):
+        return '%s - %s' % (self.name, self.team.name)
+
+class RosterMatch(models.Model):
+    local = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='Roster_local')
+    visita = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='Roster_visita')
+    match = models.ForeignKey('Match', on_delete=models.CASCADE)
+    class Meta:
+        unique_together = (('local', 'match', 'visita'),)
+        
+        
+    def _str_(self):
+        return '%s - %s - %s' % (self.team.name, self.roster.name, self.player.name)
+
+class InterRoster(models.Model):
+    match = models.OneToOneField('Match', on_delete=models.CASCADE)
+    local = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='InterRoster_local')
+    visit = models.ForeignKey('Roster', on_delete=models.CASCADE, related_name='InterRoster_visit')
+
+    class Meta:
+        unique_together = (('match', 'local', 'visit'),)
+
+    def _str_(self):
+        return '%s v/s %s - %s' % (self.local.name, self.visit.name, self.match.date)
+    
+class Match(models.Model):
+    local = models.ForeignKey('Team', on_delete = models.CASCADE,related_name='match_local')
+    visit = models.ForeignKey('Team', on_delete = models.CASCADE,related_name='match_visit')
     date = models.DateTimeField(auto_now=False, auto_now_add=False)
-    roster = models.CharField(max_length=120)
     
     def __str__(self):
-        return self.name
+        return '%s v/s %s' % (self.local.name, self.visit.name)
+    
+  

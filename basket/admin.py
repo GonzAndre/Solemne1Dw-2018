@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Team, Player, Coach ,Match
+from .models import *
 from django.utils.safestring import mark_safe
 
 
@@ -22,4 +22,16 @@ class PlayerAdmin(admin.ModelAdmin):
     
 @admin.register(Match)
 class MatchAdmin(admin.ModelAdmin):
-    list_display = ('name', 'date','roster',)
+    list_display = ('local','visit', 'date',)
+    
+@admin.register(Roster)    
+class RosterAdmin(admin.ModelAdmin):
+    pass
+    
+@admin.register(RosterMatch)
+class RosterMatchAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(InterRoster)
+class InterRosterAdmin(admin.ModelAdmin):
+    pass
